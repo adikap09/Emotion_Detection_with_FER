@@ -21,31 +21,31 @@ Follow these steps to set up the project environment and replicate the model tra
 You must have Python 3.x and Git installed on your system.
 
 ### 2. Clone the Repository
-'''
+```
 git clone [https://github.com/adikap09/Emotion_Detection_with_FER](https://github.com/adikap09/Emotion_Detection_with_FER) \
 cd Emotion_Detection_with_FER/
-'''
+```
 ### 3. Install Dependencies
 
 Install all required libraries, including TensorFlow, Keras, OpenCV, and scikit-learn. **It is highly recommended to use a virtual environment.**
-'''
+```
 pip install -r requirements.txt 
-'''
+```
 ### 4. Data Acquisition
 
 This project supports two datasets. You can choose to train on either or both.
 
 #### Option A: FER2013 (Standard Benchmark)
 
-1. **Download:** Obtain the fer2013.csv file from the original Kaggle competition source.
+1. **Download:** Obtain the ```fer2013.csv``` file from the original Kaggle competition source.
 
-2. **Placement:** Place it in the root directory. The Emotion_detector.ipynb notebook handles the processing.
+2. **Placement:** Place it in the root directory. The ```Emotion_detector.ipynb``` notebook handles the processing.
 
 #### Option B: Balanced RAF-DB (Recommended for Transfer Learning)
 
 1. **Download:** [Balanced RAF-DB Dataset (Kaggle)](https://www.kaggle.com/datasets/dollyprajapati182/balanced-raf-db-dataset-7575-grayscale)
 
-2. **Placement:** Extract the dataset into a folder named RAF_DB_Dataset in your project root so that you have RAF_DB_Dataset/train and RAF_DB_Dataset/test.
+2. **Placement:** Extract the dataset into a folder named ```RAF_DB_Dataset``` in your project root so that you have ```RAF_DB_Dataset/train``` and ```RAF_DB_Dataset/test```.
 
 ## 🧠 Model Training and Evaluation
 
@@ -53,27 +53,27 @@ The entire workflow is executed via Jupyter Notebooks.
 
 ### 1. Baseline Model (FER2013)
 
-- **Notebook:** Emotion_detector.ipynb
+- **Notebook:** ```Emotion_detector.ipynb```
 
-- **Description:** Trains a custom CNN from scratch on the FER2013 dataset.
+- **Description:** Trains a custom CNN from scratch on the ```FER2013``` dataset.
 
 - **Process:** Handles pixel string conversion, reshaping, and standard training.
 
 ### 2. Advanced Model (RAF-DB Transfer Learning)
 
-- **Notebook:** RAF_DB_trainer.ipynb
+- **Notebook:** ```RAF_DB_trainer.ipynb```
 
 - **Description:** Trains a deeper CNN on the higher-quality **RAF-DB** dataset ($100 \times 100$ images).
 
 - **Usage:**
 
-1. Open RAF_DB_trainer.ipynb.
+1. Open ```RAF_DB_trainer.ipynb```.
 
-2. Run the cells to preprocess the RAF-DB images.
+2. Run the cells to preprocess the ```RAF-DB``` images.
 
-3. Train the model to generate raf_db_pretrained_model.h5.
+3. Train the model to generate ```raf_db_pretrained_model.h5```.
 
-4. (Optional) Use this pre-trained model to fine-tune on FER2013 for maximum accuracy.
+4. (Optional) Use this pre-trained model to fine-tune on ```FER2013``` for maximum accuracy.
 
 ## 🎥 Real-Time Emotion Detection
 
@@ -81,13 +81,13 @@ This project includes a real-time detector that uses your webcam to recognize em
 
 - **File:** realtime.ipynb
 
-- **Model Used:** Uses the pre-trained raf_db_pretrained_model.h5 or emotiondetector.h5 (ensure these files exist after running the trainer).
+- **Model Used:** Uses the pre-trained ```raf_db_pretrained_model.h5``` or ```emotiondetector.h5``` (ensure these files exist after running the trainer).
 
-- **Dependencies:** Requires opencv-python (pip install opencv-python).
+- **Dependencies:** Requires ```opencv-python``` (```pip install opencv-python```).
 
 ### How to Run
 
-1. Open realtime.ipynb in Jupyter.
+1. Open ```realtime.ipynb``` in Jupyter.
 
 2. Ensure your webcam is connected.
 
@@ -131,5 +131,6 @@ The advanced model trained on the Balanced RAF-DB dataset demonstrated significa
 | Neutral | 0.84 | 0.85 | 0.85 |
 
 The RAF-DB model effectively solved the confusion issues present in the baseline model, achieving near-perfect classification for 'Fear' and 'Angry' classes.
+
 
 
