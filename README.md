@@ -21,15 +21,16 @@ Follow these steps to set up the project environment and replicate the model tra
 You must have Python 3.x and Git installed on your system.
 
 ### 2. Clone the Repository
-
+'''
 git clone [https://github.com/adikap09/Emotion_Detection_with_FER](https://github.com/adikap09/Emotion_Detection_with_FER) \
 cd Emotion_Detection_with_FER/
-
+'''
 ### 3. Install Dependencies
 
 Install all required libraries, including TensorFlow, Keras, OpenCV, and scikit-learn. **It is highly recommended to use a virtual environment.**
-
-Example: Activate a virtual environment before running this command
+'''
+pip install -r requirements.txt 
+'''
 ### 4. Data Acquisition
 
 This project supports two datasets. You can choose to train on either or both.
@@ -130,4 +131,5 @@ The advanced model trained on the Balanced RAF-DB dataset demonstrated significa
 | Neutral | 0.84 | 0.85 | 0.85 |
 
 The RAF-DB model effectively solved the confusion issues present in the baseline model, achieving near-perfect classification for 'Fear' and 'Angry' classes.
+
 
