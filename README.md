@@ -4,15 +4,13 @@
 
 This repository contains the complete implementation and analysis for a deep learning project focused on **Facial Emotion Recognition (FER)**. The goal is to classify static facial images into seven core emotional categories using a Convolutional Neural Network (CNN) built with Keras and TensorFlow.
 
-This project was submitted as a Midsemester Report for Semester 1, 2025-26.
-
 |  |  |
 |---|---|
 | Submitted By: | Adit Kapur, Pranav P E, Vaishnav Kiran (Group 12) |
 | Architecture: | Custom Convolutional Neural Network (CNN) |
-| Dataset: | FER2013 (35,887 samples, $48 \times 48$ grayscale) |
-| Final Validation Accuracy: | 62.4% |
-| Key Findings: | Successfully validated CNN viability for the task, identified significant overfitting, and noted confusion between nuanced classes like 'Fear' and 'Sad'. |
+| Datasets: | FER2013 (48x48) & Balanced RAF-DB (100x100) |
+| Final Validation Accuracy: | 62.4% (Baseline) / ~93% (RAF-DB Transfer Learning) |
+| Key Findings: | Successfully validated CNN viability for the task. Significant performance boost achieved using RAF-DB transfer learning to combat overfitting and improve generalization on real-world images. |
 
 ## 🚀 Getting Started
 
@@ -24,51 +22,77 @@ You must have Python 3.x and Git installed on your system.
 
 ### 2. Clone the Repository
 
-Clone this repository using the following commands:
-```
-git clone https://github.com/adikap09/Emotion_Detection_with_FER
+git clone [https://github.com/adikap09/Emotion_Detection_with_FER](https://github.com/adikap09/Emotion_Detection_with_FER) \
 cd Emotion_Detection_with_FER/
-```
+
 ### 3. Install Dependencies
 
-Install all required libraries, including TensorFlow, Keras, and scikit-learn. 
+Install all required libraries, including TensorFlow, Keras, OpenCV, and scikit-learn. **It is highly recommended to use a virtual environment.**
 
-```pip install -r requirements.txt```
-
+Example: Activate a virtual environment before running this command
 ### 4. Data Acquisition
 
-This project uses the **FER2013 dataset**, which is often distributed as a single CSV file.
+This project supports two datasets. You can choose to train on either or both.
 
-1. **Download:** Obtain the ```fer2013.csv``` file from the original Kaggle competition source or a similar archive.
+#### Option A: FER2013 (Standard Benchmark)
 
-2. **Placement:** Place the ```fer2013.csv``` file in your project's root directory or modify the data loading path in the ```trainmodel.ipynb``` notebook.
+1. **Download:** Obtain the fer2013.csv file from the original Kaggle competition source.
 
-- *(Note: The repository uses a directory structure (```images/train```, ```images/test```). If your notebook is designed to create this structure from the CSV, skip manual image file placement.)*
+2. **Placement:** Place it in the root directory. The Emotion_detector.ipynb notebook handles the processing.
+
+#### Option B: Balanced RAF-DB (Recommended for Transfer Learning)
+
+1. **Download:** [Balanced RAF-DB Dataset (Kaggle)](https://www.kaggle.com/datasets/dollyprajapati182/balanced-raf-db-dataset-7575-grayscale)
+
+2. **Placement:** Extract the dataset into a folder named RAF_DB_Dataset in your project root so that you have RAF_DB_Dataset/train and RAF_DB_Dataset/test.
 
 ## 🧠 Model Training and Evaluation
 
-The entire workflow, from data loading to saving the final model, is executed via the Jupyter Notebook.
+The entire workflow is executed via Jupyter Notebooks.
 
-### Training Steps
+### 1. Baseline Model (FER2013)
 
-1. **Start Jupyter:** \
-```jupyter notebook```
- 
-2. **Open ```trainmodel.ipynb```:** Run the notebook cells sequentially.
+- **Notebook:** Emotion_detector.ipynb
 
-3. **Data Preprocessing:** The notebook handles the multi-step preprocessing detailed in the report (Pixel String Conversion, Reshaping to (48, 48, 1), Normalization, and One-Hot Encoding).
+- **Description:** Trains a custom CNN from scratch on the FER2013 dataset.
 
-4. **Model Definition:** The custom CNN architecture is defined using the Keras Sequential API.
+- **Process:** Handles pixel string conversion, reshaping, and standard training.
 
-5. **Execution:** The ```model.fit()``` command trains the network for 100 epochs using the Adam optimizer and Categorical Cross-Entropy loss.
+### 2. Advanced Model (RAF-DB Transfer Learning)
 
-### Model Architecture Summary
+- **Notebook:** RAF_DB_trainer.ipynb
 
-The custom CNN consists of a sequential stack of layers:
+- **Description:** Trains a deeper CNN on the higher-quality **RAF-DB** dataset ($100 \times 100$ images).
 
-- **Feature Extraction:** Multiple blocks of ```Conv2D``` (e.g., 128, 256, 512 filters) + ```MaxPooling2D``` + ```Dropout``` (0.4 rate).
+- **Usage:**
 
-- **Classification:** ```Flatten``` $\to$ ```Dense``` (512 units) $\to$ ```Dense``` (256 units) $\to$ ```Dense``` (7 units, Softmax output).
+1. Open RAF_DB_trainer.ipynb.
+
+2. Run the cells to preprocess the RAF-DB images.
+
+3. Train the model to generate raf_db_pretrained_model.h5.
+
+4. (Optional) Use this pre-trained model to fine-tune on FER2013 for maximum accuracy.
+
+## 🎥 Real-Time Emotion Detection
+
+This project includes a real-time detector that uses your webcam to recognize emotions live.
+
+- **File:** realtime.ipynb
+
+- **Model Used:** Uses the pre-trained raf_db_pretrained_model.h5 or emotiondetector.h5 (ensure these files exist after running the trainer).
+
+- **Dependencies:** Requires opencv-python (pip install opencv-python).
+
+### How to Run
+
+1. Open realtime.ipynb in Jupyter.
+
+2. Ensure your webcam is connected.
+
+3. Run the code cells. A window named "Output" will appear showing the video feed with bounding boxes and emotion labels.
+
+4. Press **'Esc'** to stop the video feed and close the window.
 
 ## 📊 Results and Overfitting Analysis
 
@@ -88,12 +112,21 @@ The analysis shows the model's performance on the validation set:
 
 - **Worst Performance:** **Fear (41% Correct)** and high confusion between 'Sad' / 'Neutral' and 'Angry' / 'Disgust' due to subtle facial feature overlap.
 
-## 💡 Future Work
+## 📈 RAF-DB Model Results
 
-To improve performance and achieve project goals, the following steps are planned:
+The advanced model trained on the Balanced RAF-DB dataset demonstrated significantly improved performance and robustness compared to the baseline FER2013 model.
 
-- **Implement Real-Time Detection:** Integrate the saved model (```emotiondetector.h5```) with **OpenCV** to provide live emotion classification via a webcam feed.
+- **Final Test Accuracy:** **~93%**
 
-- **Experiment with Transfer Learning:** Utilize pre-trained weights from more powerful CNN architectures (e.g., VGG-Face or a larger ResNet model) and fine-tune them on the FER2013 dataset.
+- **Generalization:** Due to the higher quality and cleaner labels of RAF-DB, the model shows much stronger generalization to real-world images.
 
-- **Data Augmentation:** Implement robust techniques to artificially increase the training data size and variety to combat overfitting.
+### Classification Report Highlights
+
+| Emotion | Precision | Recall | F1-Score |
+|---|---|---|---|
+| Angry | 0.97 | 0.99 | 0.98 |
+| Fear | 0.98 | 1.00 | 0.99 |
+| Happy | 0.96 | 0.88 | 0.92 |
+| Neutral | 0.84 | 0.85 | 0.85 |
+
+The RAF-DB model effectively solved the confusion issues present in the baseline model, achieving near-perfect classification for 'Fear' and 'Angry' classes.
