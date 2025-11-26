@@ -10,7 +10,7 @@ This repository contains the complete implementation and analysis for a deep lea
 | Architecture: | Custom Convolutional Neural Network (CNN) |
 | Datasets: | FER2013 (48x48) & Balanced RAF-DB (100x100) |
 | Final Validation Accuracy: | 62.4% (Baseline) / ~93% (RAF-DB) |
-| Key Findings: | Successfully validated CNN viability for the task. Significant performance boost achieved using RAF-DB transfer learning to combat overfitting and improve generalization on real-world images. |
+| Key Findings: | Successfully validated CNN viability for the task. Significant performance boost achieved using RAF-DB dataset to combat overfitting and improve generalization on real-world images. |
 
 ## 🚀 Getting Started
 
@@ -131,6 +131,7 @@ The advanced model trained on the Balanced RAF-DB dataset demonstrated significa
 | Neutral | 0.84 | 0.85 | 0.85 |
 
 The RAF-DB model effectively solved the confusion issues present in the baseline model, achieving near-perfect classification for 'Fear' and 'Angry' classes.
+
 
 
 
